@@ -14,7 +14,8 @@ defmodule Day1 do
 
   def total_fuel_consumption(masses) do
     masses
-    |> Enum.map(&__MODULE__.fuel_counter/1)
+    |> Enum.map(&(Task.async(fn -> __MODULE__.fuel_counter(&1) end)))
+    |> Enum.map(&Task.await/1)
     |> Enum.sum()
   end
 end
